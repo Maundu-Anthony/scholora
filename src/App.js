@@ -1,23 +1,43 @@
-// src/App.js
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Router, Route, Routes for routing
-import Navbar from "./components/Navbar"; // Import Navbar component
-import Authentication from "./components/Authentication"; // Import the Authentication component
-import Home from "./components/Home"; // Import the Home component
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import Authentication from './components/Authentication';
+import TeacherPage from './pages/TeacherPage';
+import AdminPage from './pages/AdminPage';
+import LearnerPage from './pages/LearnerPage';
+
+const DashboardRedirect = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('authToken'));
+    if (user) {
+      if (user.role === 'teacher') {
+        navigate('/teacher');
+      } else if (user.role === 'admin') {
+        navigate('/admin');
+      } else if (user.role === 'learner') {
+        navigate('/learner');
+      } else {
+        navigate('/'); // Redirect to login if the role is unknown
+      }
+    } else {
+      navigate('/'); // Redirect to login if no user is found
+    }
+  }, [navigate]);
+
+  return <div>Redirecting...</div>;
+};
 
 const App = () => {
   return (
     <Router>
-      <Navbar />
-      <div className="min-h-screen bg-gray-100">
-        <Routes>
-          {/* Define Routes */}
-          <Route path="/" element={<Home />} /> {/* Home page route */}
-          <Route path="/login" element={<Authentication onAuth={(userData) => console.log(userData)} />} />
-          <Route path="/register" element={<Authentication onAuth={(userData) => console.log(userData)} />} />
-          <Route path="/dashboard" element={<h1 className="text-center p-8">Dashboard</h1>} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Authentication />} />
+        <Route path="/dashboard" element={<DashboardRedirect />} />
+        <Route path="/teacher" element={<TeacherPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/learner" element={<LearnerPage />} />
+      </Routes>
     </Router>
   );
 };
