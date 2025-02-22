@@ -1,6 +1,6 @@
 // src/pages/Authentication.js
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Removed 'Link'
 
 const Authentication = () => {
   const [mode, setMode] = useState('login'); // 'login' or 'register'
@@ -29,13 +29,11 @@ const Authentication = () => {
         alert('Passwords do not match!');
         return;
       }
-      // Handle registration logic here
       console.log('Registering user:', formData);
-      navigate('/dashboard'); // Redirect to dashboard or another page
+      navigate('/dashboard'); 
     } else {
-      // Handle login logic here
       console.log('Logging in user:', formData.email, formData.password);
-      navigate('/dashboard'); // Redirect to dashboard or another page
+      navigate('/dashboard'); 
     }
   };
 
@@ -46,7 +44,9 @@ const Authentication = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">{mode === 'login' ? 'Login' : 'Register'}</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {mode === 'login' ? 'Login' : 'Register'}
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === 'register' && (
             <>
