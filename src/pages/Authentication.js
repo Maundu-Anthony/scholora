@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar"; 
-import wallpaper from "../assets/wallpaper.jpg"; // Import the wallpaper
+import Navbar from "../components/Navbar";
+import wallpaper from "../assets/wallpaper.jpg";
 
 const Authentication = () => {
   const [mode, setMode] = useState("login");
@@ -22,7 +22,7 @@ const Authentication = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (mode === "register" && formData.password !== formData.confirmPassword) {
@@ -30,8 +30,57 @@ const Authentication = () => {
       return;
     }
 
-    console.log(`${mode === "login" ? "Logging in" : "Registering"} user:`, formData);
-    navigate("/dashboard");
+    if (mode === "register") {
+      try {
+        const response = await fetch(`http://localhost:5000/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+
+        if (response.ok) {
+          console.log("Registering user:", formData);
+          navigate("/dashboard");
+        } else {
+          console.error("Failed to register user:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error registering user:", error);
+      }
+    } else {
+      // Login logic
+      try {
+        const response = await fetch(`http://localhost:5000/users`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const users = await response.json();
+          const user = users.find(u => u.email === formData.email && u.password === formData.password);
+
+          if (user) {
+            console.log("Logging in user:", formData);
+            navigate("/dashboard");
+          } else {
+            alert("Invalid email or password");
+          }
+        } else {
+          console.error("Failed to fetch users:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error logging in user:", error);
+      }
+    }
   };
 
   const toggleMode = () => setMode(mode === "login" ? "register" : "login");

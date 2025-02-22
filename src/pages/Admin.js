@@ -8,16 +8,32 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Dummy Admin Credentials
-  const adminUsername = "admin";
-  const adminPassword = "password123";
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === adminUsername && password === adminPassword) {
-      setIsLoggedIn(true);
-      setError(""); // Clear errors on successful login
-    } else {
+    try {
+      const response = await fetch("http://localhost:5000/admin", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const admins = await response.json();
+        const admin = admins.find(a => a.username === username && a.password === password);
+
+        if (admin) {
+          setIsLoggedIn(true);
+          setError(""); // Clear errors on successful login
+        } else {
+          setError("Invalid username or password");
+        }
+      } else {
+        console.error("Failed to fetch admin data:", response.statusText);
+        setError("Invalid username or password");
+      }
+    } catch (error) {
+      console.error("Error logging in admin:", error);
       setError("Invalid username or password");
     }
   };

@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "2e76",
+      "firstName": "Moses",
+      "lastName": "Kioko",
+      "email": "moseskioko@gmail.com",
+      "password": "1234"
+    }
+  ],
+  "admin": [
+    {
+      "username": "admin",
+      "password": "Abercrombie1000."
+    }
+  ]
+}
