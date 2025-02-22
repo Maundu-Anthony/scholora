@@ -13,12 +13,20 @@
       "lastName": "Maundu",
       "email": "anthonymaundu1@gmail.com",
       "password": "makueni2013"
+    },
+    {
+      "id": "a10a",
+      "firstName": "Abigael",
+      "lastName": "Maundu",
+      "email": "abigaelmaundu@gmail.com",
+      "password": "12345"
     }
   ],
   "admin": [
     {
       "username": "admin",
-      "password": "Abercrombie1000."
+      "password": "Abercrombie1000.",
+      "id": "1e8d"
     }
   ]
 }
