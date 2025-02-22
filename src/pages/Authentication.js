@@ -1,12 +1,12 @@
 // src/pages/Authentication.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Removed 'Link'
+import { useNavigate } from 'react-router-dom';
 
 const Authentication = () => {
-  const [mode, setMode] = useState('login'); // 'login' or 'register'
+  const [mode, setMode] = useState('login');
   const [formData, setFormData] = useState({
-    name: '',
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -30,10 +30,10 @@ const Authentication = () => {
         return;
       }
       console.log('Registering user:', formData);
-      navigate('/dashboard'); 
+      navigate('/dashboard');
     } else {
       console.log('Logging in user:', formData.email, formData.password);
-      navigate('/dashboard'); 
+      navigate('/dashboard');
     }
   };
 
@@ -51,24 +51,24 @@ const Authentication = () => {
           {mode === 'register' && (
             <>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   required
                   className="mt-1 p-2 w-full border rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
                   onChange={handleChange}
                   required
                   className="mt-1 p-2 w-full border rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
