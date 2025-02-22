@@ -83,6 +83,35 @@ const Authentication = () => {
     }
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:5000/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const users = await response.json();
+        const user = users.find(u => u.email === formData.email);
+
+        if (user) {
+          // Simulate sending an email with a password reset link
+          alert("Password reset link sent to your email.");
+          navigate("/reset-password");
+        } else {
+          alert("No user found with this email.");
+        }
+      } else {
+        console.error("Failed to fetch users:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error handling forgot password:", error);
+    }
+  };
+
   const toggleMode = () => setMode(mode === "login" ? "register" : "login");
 
   return (
@@ -167,6 +196,13 @@ const Authentication = () => {
               {mode === "login" ? "Login" : "Register"}
             </button>
           </form>
+          {mode === "login" && (
+            <p className="text-center mt-4">
+              <button onClick={handleForgotPassword} className="text-indigo-500 hover:text-indigo-600 ml-2">
+                Forgot Password?
+              </button>
+            </p>
+          )}
           <p className="text-center mt-4">
             {mode === "login" ? "Don’t have an account?" : "Already have an account?"}
             <button onClick={toggleMode} className="text-indigo-500 hover:text-indigo-600 ml-2">
